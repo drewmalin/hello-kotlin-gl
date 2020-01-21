@@ -1,5 +1,3 @@
-version '1.0-SNAPSHOT'
-
 buildscript {
     ext {
         kotlinVersion = '1.3.21'
@@ -14,11 +12,16 @@ buildscript {
     }
 }
 
+plugins {
+    id 'application'
+}
+apply plugin: 'kotlin'
+
+version '1.0-SNAPSHOT'
+
 repositories {
     mavenCentral()
 }
-
-apply plugin: 'kotlin'
 
 sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
@@ -40,15 +43,7 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = compatibilityVersion
 }
 
-jar {
-    from {
-        (configurations.compile).collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-    manifest {
-        attributes (
-            "Main-Class": "main.MainKt"
-        )
-    }
+application {
+    mainClassName = 'main.MainKt'
+    applicationDefaultJvmArgs = ['-XstartOnFirstThread']
 }
